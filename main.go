@@ -36,28 +36,29 @@ func main() {
 	// Bonus Point: Paralellize with Go
 
 	collisionCounter := 0
-	generations := 10000
 
-	for j := 0; j < generations; j++ {
-		seenHashes := make(map[string]bool)
+	classrooms := 100
+
+	for j := 0; j < classrooms; j++ {
+		classroom := make(map[string]bool)
 
 		for i := 0; i < n; i++ {
 			// Generate a "birthday" (or in our case, a hash)
-			randomHash, _ := rand.Int(rand.Reader, maxHashValue)
+			studentBirthday, _ := rand.Int(rand.Reader, maxHashValue)
 
 			// Check for collision
-			if _, exists := seenHashes[randomHash.String()]; exists {
+			if _, exists := classroom[studentBirthday.String()]; exists {
 				fmt.Printf("Collision found after %d hashes\n", i+1)
 				collisionCounter++
 				break
 			}
 
 			// Store this hash in our set of seen hashes
-			seenHashes[randomHash.String()] = true
+			classroom[studentBirthday.String()] = true
 		}
 		fmt.Println("No collision found")
 	}
-	collisionPercentage := float64(collisionCounter) / float64(generations) * 100
-	fmt.Printf("Out of %d random groups of 23 students with 365 random birthdays, collisions were found %.2f%% of the time", generations, collisionPercentage)
+	collisionPercentage := float64(collisionCounter) / float64(classrooms) * 100
+	fmt.Printf("Out of %d random classrooms of 23 students with 365 random birthdays, collisions were found in %.2f%% of the classrooms", classrooms, collisionPercentage)
 	fmt.Println()
 }
